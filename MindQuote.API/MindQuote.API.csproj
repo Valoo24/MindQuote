@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\MindQuote.Core\MindQuote.Core.csproj" />
+    <ProjectReference Include="..\MindQuote.Infra\MindQuote.Infra.csproj" />
   </ItemGroup>
 
 </Project>
