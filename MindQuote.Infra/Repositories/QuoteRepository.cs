@@ -8,7 +8,8 @@ public class QuoteRepository : IRepository<Quote>
 {
     public async Task<Guid> CreateAsync(Quote entity)
     {
-        throw new NotImplementedException();
+        FakeQuotesDB.Quotes.Add(entity);
+        return entity.Id;
     }
 
     public async Task<Guid> DeleteAsync(Guid id)

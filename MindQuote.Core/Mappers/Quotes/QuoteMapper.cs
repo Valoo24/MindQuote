@@ -1,4 +1,5 @@
 ﻿using MindQuote.Core.Entities;
+using MindQuote.Core.Features.Quotes.Commands.CreateQuote;
 using MindQuote.Core.Features.Quotes.Queries.GetQuotesList;
 
 namespace MindQuote.Core.Mappers.Quotes;
@@ -14,6 +15,18 @@ public static class QuoteMapper
             AuthorFirstName = dto.AuthorFirstName,
             AuthorLastName = dto.AuthorLastName,
             Origin = dto.Origin,
+        };
+    }
+
+    public static Quote ToEntity(this CreateQuoteCommand command)
+    {
+        return new Quote
+        {
+            Id = Guid.NewGuid(),
+            Content = command.Content,
+            AuthorFirstName = command.AuthorFirstName,
+            AuthorLastName = command.AuthorLastName,
+            Origin = command.Origin,
         };
     }
 
