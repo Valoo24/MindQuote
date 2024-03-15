@@ -1,14 +1,20 @@
 ﻿using MindQuote.Core.Abstracts;
 using MindQuote.Core.Entities;
-using MindQuote.Infra.FakeData;
+using MindQuote.Infra.Persistence;
 
 namespace MindQuote.Infra.Repositories;
 
 public class QuoteRepository : IRepository<Quote>
 {
+    private QuoteContext _context;
+    public QuoteRepository(QuoteContext context)
+    {
+        _context = context;
+    }
     public async Task<Guid> CreateAsync(Quote entity)
     {
-        FakeQuotesDB.Quotes.Add(entity);
+        _context.Add(entity);
+        _context.SaveChanges();
         return entity.Id;
     }
 
@@ -19,12 +25,12 @@ public class QuoteRepository : IRepository<Quote>
 
     public async Task<IEnumerable<Quote>> GetAsync()
     {
-        return FakeQuotesDB.Quotes;
+        return _context.Quotes;
     }
 
     public async Task<Quote> GetAsync(Guid id)
     {
-        return FakeQuotesDB.Quotes.FirstOrDefault(q => q.Id == id);
+        return await _context.Quotes.FindAsync(id);
     }
 
     public async Task<Quote> GetAsync(Quote entity)

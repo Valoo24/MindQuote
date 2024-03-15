@@ -1,13 +1,20 @@
 ﻿using MindQuote.Core.Abstracts;
 using MindQuote.Infra.FakeData;
+using MindQuote.Infra.Persistence;
 
 namespace MindQuote.Infra.Repositories;
 
 public class BookAuthorIntermediaryRepository : IRepository<BookAuthorIntermediaryTable>
 {
+    private QuoteContext _context;
+    public BookAuthorIntermediaryRepository(QuoteContext context)
+    {
+        _context = context;
+    }
     public async Task<Guid> CreateAsync(BookAuthorIntermediaryTable entity)
     {
-        FakeQuotesDB.BookAuthorIntermediaryTable.Add(entity);
+        _context.BookAuthorIntermediaryTable.Add(entity);
+        _context.SaveChanges();
         return Guid.Empty;
     }
 
@@ -18,7 +25,7 @@ public class BookAuthorIntermediaryRepository : IRepository<BookAuthorIntermedia
 
     public async Task<IEnumerable<BookAuthorIntermediaryTable>> GetAsync()
     {
-        return FakeQuotesDB.BookAuthorIntermediaryTable;
+        return _context.BookAuthorIntermediaryTable;
     }
 
     public async Task<BookAuthorIntermediaryTable> GetAsync(Guid id)
@@ -28,7 +35,7 @@ public class BookAuthorIntermediaryRepository : IRepository<BookAuthorIntermedia
 
     public async Task<BookAuthorIntermediaryTable> GetAsync(BookAuthorIntermediaryTable entity)
     {
-        return FakeQuotesDB.BookAuthorIntermediaryTable
+        return _context.BookAuthorIntermediaryTable
             .FirstOrDefault(i => i.AuthorId == entity.AuthorId && i.BookId == entity.BookId);
     }
 

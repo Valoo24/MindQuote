@@ -1,14 +1,20 @@
 ﻿using MindQuote.Core.Abstracts;
 using MindQuote.Core.Entities;
-using MindQuote.Infra.FakeData;
+using MindQuote.Infra.Persistence;
 
 namespace MindQuote.Infra.Repositories;
 
 public class AuthorRepository : IRepository<Author>
 {
+    private QuoteContext _context;
+    public AuthorRepository(QuoteContext context)
+    {
+        _context = context;
+    }
     public async Task<Guid> CreateAsync(Author entity)
     {
-        FakeQuotesDB.Authors.Add(entity);
+        _context.Authors.Add(entity);
+        _context.SaveChanges();
         return entity.Id;
     }
 
@@ -19,17 +25,18 @@ public class AuthorRepository : IRepository<Author>
 
     public async Task<IEnumerable<Author>> GetAsync()
     {
-        return FakeQuotesDB.Authors;
+        return _context.Authors;
     }
 
     public async Task<Author> GetAsync(Guid id)
     {
-        return FakeQuotesDB.Authors.FirstOrDefault(a => a.Id == id);
+        return await _context.Authors.FindAsync(id);
     }
 
     public async Task<Author> GetAsync(Author entity)
     {
-        return FakeQuotesDB.Authors.FirstOrDefault(a => a.FirstName == entity.FirstName && a.LastName == entity.LastName);
+        return _context.Authors
+            .FirstOrDefault(a => a.FirstName == entity.FirstName && a.LastName == entity.LastName);
     }
 
     public async Task<Guid> UpdateAsync(Author entity)
