@@ -2,7 +2,7 @@
 
 namespace MindQuote.Core.Features.Quotes.Commands.CreateQuote;
 
-public class CreateQuoteCommand : IRequest<Guid>
+public class CreateQuoteCommand : IRequest<CreateQuoteCommandResponse>
 {
     public string Content { get; set; }
     public string AuthorFirstName { get; set; }

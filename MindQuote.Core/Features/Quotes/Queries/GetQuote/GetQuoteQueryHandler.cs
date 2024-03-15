@@ -1,12 +1,11 @@
 ﻿using MediatR;
 using MindQuote.Core.Abstracts;
 using MindQuote.Core.Entities;
-using MindQuote.Core.Features.Quotes.Queries.GetQuotesList;
 using MindQuote.Core.Mappers.Quotes;
 
 namespace MindQuote.Core.Features.Quotes.Queries.GetQuote;
 
-public class GetQuoteQueryHandler : IRequestHandler<GetQuoteQuery, QuoteDTO>
+public class GetQuoteQueryHandler : IRequestHandler<GetQuoteQuery, GetQuoteQueryResponse>
 {
     private IRepository<Quote> _repository;
 
@@ -15,11 +14,14 @@ public class GetQuoteQueryHandler : IRequestHandler<GetQuoteQuery, QuoteDTO>
         _repository = repository;
     }
 
-    public async Task<QuoteDTO> Handle(GetQuoteQuery request, CancellationToken cancellationToken)
+    public async Task<GetQuoteQueryResponse> Handle(GetQuoteQuery request, CancellationToken cancellationToken)
     {
+        GetQuoteQueryResponse response = new();
         var result = await _repository.GetAsync().WaitAsync(cancellationToken);
-        var entity = result.ToList().Where(q => q.Id == request.Id).FirstOrDefault() ?? null;
-        if(entity is null) throw new ArgumentNullException($"No matching Quote found for the Id {request.Id}");
-        else return entity.ToDTO();
+        var entity = result.ToList().Where(q => q.Id == request.Id).FirstOrDefault() ?? 
+            throw new ArgumentNullException($"No matching Quote found for the Id {request.Id}");
+        
+        response.Content = entity.ToDTO();
+        return response;
     }
 }

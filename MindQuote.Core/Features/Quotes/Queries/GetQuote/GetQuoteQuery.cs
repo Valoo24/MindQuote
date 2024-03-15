@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using MindQuote.Core.Features.Quotes.Queries.GetQuotesList;
+using MindQuote.Core.Dtos;
 
 namespace MindQuote.Core.Features.Quotes.Queries.GetQuote;
 
-public class GetQuoteQuery : IRequest<QuoteDTO>
+public class GetQuoteQuery : IRequest<GetQuoteQueryResponse>
 {
     public Guid Id { get; set; }
     public string? Content { get; set; }

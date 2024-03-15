@@ -1,6 +1,6 @@
-﻿using MindQuote.Core.Entities;
+﻿using MindQuote.Core.Dtos;
+using MindQuote.Core.Entities;
 using MindQuote.Core.Features.Quotes.Commands.CreateQuote;
-using MindQuote.Core.Features.Quotes.Queries.GetQuotesList;
 
 namespace MindQuote.Core.Mappers.Quotes;
 

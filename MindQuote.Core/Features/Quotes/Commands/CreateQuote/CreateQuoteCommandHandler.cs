@@ -5,15 +5,17 @@ using MindQuote.Core.Mappers.Quotes;
 
 namespace MindQuote.Core.Features.Quotes.Commands.CreateQuote;
 
-public class CreateQuoteCommandHandler : IRequestHandler<CreateQuoteCommand, Guid>
+public class CreateQuoteCommandHandler : IRequestHandler<CreateQuoteCommand, CreateQuoteCommandResponse>
 {
     private IRepository<Quote> _repository;
     public CreateQuoteCommandHandler(IRepository<Quote> repository)
     {
         _repository = repository;
     }
-    public async Task<Guid> Handle(CreateQuoteCommand request, CancellationToken cancellationToken)
+    public async Task<CreateQuoteCommandResponse> Handle(CreateQuoteCommand request, CancellationToken cancellationToken)
     {
-        return await _repository.CreateAsync(request.ToEntity());
+        CreateQuoteCommandResponse response = new();
+        response.Content = await _repository.CreateAsync(request.ToEntity());
+        return response;
     }
 }

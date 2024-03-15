@@ -18,51 +18,27 @@ public class QuoteController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<QuoteDTO>>> GetAllQuotes()
+    public async Task<IActionResult> GetAllQuotes()
     {
-        try
-        {
             var result = await _mediator.Send(new GetQuotesListQuery());
             Log.Information("Getting all Quotes from Database.");
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex.Message);
-            return BadRequest(ex.Message);
-        }
+            return Ok(result.Content);
     }
     
     [HttpGet("id={id}")]
-    public async Task<ActionResult<QuoteDTO>> GetQuote(Guid id)
+    public async Task<IActionResult> GetQuote(Guid id)
     {
-        try
-        {
             var query = new GetQuoteQuery { Id = id };
             var result = await _mediator.Send(query);
             Log.Information($"Get a quote with Query: {query}");
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex.Message);
-            return BadRequest(ex.Message);
-        }
+            return Ok(result.Content);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> AddQuote([FromBody] CreateQuoteCommand command)
+    public async Task<IActionResult> AddQuote([FromBody] CreateQuoteCommand command)
     {
-        try
-        {
-            var result = _mediator.Send(command);
-            Log.Information($"Quote {result.Result} added succesfully !");
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex.Message);
-            return BadRequest(ex.Message);
-        }
+            var result = await _mediator.Send(command);
+            Log.Information($"Quote {result.Content} added succesfully !");
+            return Ok(result.Content);
     }
 }
