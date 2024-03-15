@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MindQuote.API;
+using MindQuote.API.Middlwares;
 using MindQuote.Core.Abstracts;
 using MindQuote.Core.Entities;
 using MindQuote.Infra.FakeData;
@@ -35,6 +36,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCustomeExceptionHandler();
 
 app.MapControllers();
 
