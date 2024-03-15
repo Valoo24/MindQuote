@@ -12,7 +12,7 @@ public class BookRepository : IRepository<Book>
         return entity.Id;
     }
 
-    public Task<Guid> DeleteAsync(Guid id)
+    public async Task<Guid> DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }
@@ -24,16 +24,15 @@ public class BookRepository : IRepository<Book>
 
     public async Task<Book> GetAsync(Guid id)
     {
-        return FakeQuotesDB.Books.FirstOrDefault(b => b.Id == id) ?? 
-            throw new ArgumentNullException($"Book Id {id} is not found");
+        return FakeQuotesDB.Books.FirstOrDefault(b => b.Id == id);
     }
 
-    public Task<Book> GetAsync(Book entity)
+    public async Task<Book> GetAsync(Book entity)
     {
-        throw new NotImplementedException();
+        return FakeQuotesDB.Books.FirstOrDefault(b => b.Title == entity.Title);
     }
 
-    public Task<Guid> UpdateAsync(Book entity)
+    public async Task<Guid> UpdateAsync(Book entity)
     {
         throw new NotImplementedException();
     }

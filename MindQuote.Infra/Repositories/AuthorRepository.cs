@@ -24,13 +24,12 @@ public class AuthorRepository : IRepository<Author>
 
     public async Task<Author> GetAsync(Guid id)
     {
-        return FakeQuotesDB.Authors.FirstOrDefault(a => a.Id == id) ?? 
-            throw new ArgumentNullException($"Author Id {id} is not found");
+        return FakeQuotesDB.Authors.FirstOrDefault(a => a.Id == id);
     }
 
-    public Task<Author> GetAsync(Author entity)
+    public async Task<Author> GetAsync(Author entity)
     {
-        throw new NotImplementedException();
+        return FakeQuotesDB.Authors.FirstOrDefault(a => a.FirstName == entity.FirstName && a.LastName == entity.LastName);
     }
 
     public async Task<Guid> UpdateAsync(Author entity)

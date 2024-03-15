@@ -1,5 +1,6 @@
 using MindQuote.Core.Abstracts;
 using MindQuote.Core.Entities;
+using MindQuote.Infra.FakeData;
 using MindQuote.Infra.Repositories;
 using Serilog;
 
@@ -14,6 +15,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
 builder.Services.AddScoped <IRepository<Quote>, QuoteRepository>();
 builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddScoped<IRepository<BookAuthorIntermediaryTable>, BookAuthorIntermediaryRepository>();
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
 

@@ -24,11 +24,10 @@ public class QuoteRepository : IRepository<Quote>
 
     public async Task<Quote> GetAsync(Guid id)
     {
-        return FakeQuotesDB.Quotes.FirstOrDefault(q => q.Id == id) ?? 
-            throw new ArgumentNullException($"Quote Id {id} is not found");
+        return FakeQuotesDB.Quotes.FirstOrDefault(q => q.Id == id);
     }
 
-    public Task<Quote> GetAsync(Quote entity)
+    public async Task<Quote> GetAsync(Quote entity)
     {
         throw new NotImplementedException();
     }

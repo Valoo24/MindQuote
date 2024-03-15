@@ -51,6 +51,7 @@ public static class FakeQuotesDB
     {
         new BookAuthorIntermediaryTable
         {
+            Id = Guid.Empty,
             BookId = new("421747a5-560c-4af9-aa74-62886366767a"),
             AuthorId = new("f0fb8f97-c5ca-430c-9aab-f714b7d47eed")
         }
