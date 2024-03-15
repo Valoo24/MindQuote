@@ -44,4 +44,15 @@ public static class QuoteMapper
             AuthorLastName = author.LastName
         };
     }
+
+    public static void AddAuthor(this QuoteDTO dto, Author author)
+    {
+        dto.AuthorFirstName = author.FirstName;
+        dto.AuthorLastName = author.LastName;
+    }
+
+    public static void AddBook(this QuoteDTO dto, Book book)
+    {
+        dto.Origin = book.Title;
+    }
 }

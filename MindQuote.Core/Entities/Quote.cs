@@ -6,5 +6,6 @@ public class Quote : IEntity
 {
     public Guid Id { get; set; }
     public Guid AuthorId { get; set; }
+    public Guid BookId { get; set; }
     public string Content { get; set; } = string.Empty;
 }

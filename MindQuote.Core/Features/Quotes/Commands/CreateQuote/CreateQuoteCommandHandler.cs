@@ -16,18 +16,29 @@ public class CreateQuoteCommandHandler : IRequestHandler<CreateQuoteCommand, Cre
     }
     public async Task<CreateQuoteCommandResponse> Handle(CreateQuoteCommand request, CancellationToken cancellationToken)
     {
-        CreateQuoteCommandResponse response = new();
-        var authors = await _authorRepository.GetAsync().WaitAsync(cancellationToken);
+        Guid responseQuoteId = Guid.Empty;
+        Guid responseAuthorId = Guid.Empty;
+        Guid responseBookId = Guid.Empty;
+        bool isAnonymousAuthor = string.IsNullOrEmpty(request.AuthorFirstName) && string.IsNullOrEmpty(request.AuthorLastName);
 
-        var newAuthor = request.ToAuthorEntity();
+        if (!isAnonymousAuthor)
+        {
+            //On cherche l'auteur avec son prénom et son nom et s'il n'existe pas on le crée.
+        }
 
-        var result = authors.FirstOrDefault(a => a.FirstName == newAuthor.FirstName && a.LastName == newAuthor.LastName);
+        if(!string.IsNullOrEmpty(request.Origin))
+        {
+            //On vérifie le livre avec son titre et s'il n'existe pas on le crée
+        }
 
-        if (result is null) response.Content.AuthorId = await _authorRepository.CreateAsync(newAuthor);
-        else response.Content.AuthorId = result.Id;
-
-        response.Content.QuoteId = await _quoteRepository.CreateAsync(request.ToQuoteEntity(newAuthor));
-
-        return response;
+        return new CreateQuoteCommandResponse
+        {
+            Content = new CreateQuoteCommandResponseDto
+            {
+                QuoteId = responseQuoteId,
+                AuthorId = responseAuthorId,
+                BookId = responseBookId,
+            }
+        };
     }
 }

@@ -13,6 +13,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
 
 builder.Services.AddScoped <IRepository<Quote>, QuoteRepository>();
 builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
+builder.Services.AddScoped<IRepository<Book>, BookRepository>();
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
 

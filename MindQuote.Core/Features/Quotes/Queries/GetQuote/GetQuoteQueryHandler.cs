@@ -9,26 +9,35 @@ public class GetQuoteQueryHandler : IRequestHandler<GetQuoteQuery, GetQuoteQuery
 {
     private IRepository<Quote> _quoteRepository;
     private IRepository<Author> _authorRepository;
-    public GetQuoteQueryHandler(IRepository<Quote> quoteRepository, IRepository<Author> authorRepository)
+    private IRepository<Book> _bookRepository;
+    public GetQuoteQueryHandler(IRepository<Quote> quoteRepository, IRepository<Author> authorRepository, IRepository<Book> bookRepository)
     {
         _quoteRepository = quoteRepository;
         _authorRepository = authorRepository;
+        _bookRepository = bookRepository;
     }
 
     public async Task<GetQuoteQueryResponse> Handle(GetQuoteQuery request, CancellationToken cancellationToken)
     {
-        GetQuoteQueryResponse response = new();
-        var quotes = await _quoteRepository.GetAsync().WaitAsync(cancellationToken);
-        var authors = await _authorRepository.GetAsync().WaitAsync(cancellationToken); 
+        var quote = await _quoteRepository.GetAsync(request.Id).WaitAsync(cancellationToken);
 
-        var entity = quotes.ToList().Where(q => q.Id == request.Id).FirstOrDefault() ?? 
-            throw new ArgumentNullException($"No matching Quote found for the Id {request.Id}");
+        var dto = quote.ToDTO();
 
-        var author = authors.FirstOrDefault(a => a.Id == entity.AuthorId) ?? 
-            throw new ArgumentNullException();
+        if (quote.AuthorId != Guid.Empty)
+        {
+            var author = await _authorRepository.GetAsync(quote.AuthorId).WaitAsync(cancellationToken);
+            dto.AddAuthor(author);
+        }
 
-        response.Content = entity.ToDTO(author);
+        if(quote.BookId != Guid.Empty)
+        {
+            var book = await _bookRepository.GetAsync(quote.BookId).WaitAsync(cancellationToken);
+            dto.AddBook(book);
+        }
 
-        return response;
+        return new GetQuoteQueryResponse
+        {
+            Content = dto
+        };
     }
 }

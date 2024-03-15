@@ -22,6 +22,17 @@ public class AuthorRepository : IRepository<Author>
         return FakeQuotesDB.Authors;
     }
 
+    public async Task<Author> GetAsync(Guid id)
+    {
+        return FakeQuotesDB.Authors.FirstOrDefault(a => a.Id == id) ?? 
+            throw new ArgumentNullException($"Author Id {id} is not found");
+    }
+
+    public Task<Author> GetAsync(Author entity)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Guid> UpdateAsync(Author entity)
     {
         throw new NotImplementedException();
