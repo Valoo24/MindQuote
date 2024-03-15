@@ -4,7 +4,7 @@ namespace MindQuote.Infra.FakeData;
 
 public static class FakeQuotesDB
 {
-    public static List<Quote> Quotes { get; set; } = new List<Quote>
+    public static IList<Quote> Quotes { get; set; } = new List<Quote>
     {
         new Quote
         {

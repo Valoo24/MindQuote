@@ -17,17 +17,9 @@ public class QuoteRepository : IRepository<Quote>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Quote> GetAllAsync()
+    public async Task<IEnumerable<Quote>> GetAsync()
     {
-        foreach(var quote in FakeQuotesDB.Quotes)
-        {
-            yield return quote;
-        }
-    }
-
-    public async Task<Quote> GetAsync(Guid id)
-    {
-        throw new NotImplementedException();
+        return FakeQuotesDB.Quotes;
     }
 
     public async Task<Guid> UpdateAsync(Quote entity)

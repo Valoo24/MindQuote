@@ -15,7 +15,7 @@ public class GetQuotesListQueryHandler : IRequestHandler<GetQuotesListQuery, Lis
     public async Task<List<QuoteDTO>> Handle(GetQuotesListQuery request, CancellationToken cancellationToken)
     {
         List<QuoteDTO> dtos = new List<QuoteDTO>();
-        var result = _repository.GetAllAsync();
+        var result = await _repository.GetAsync();
         foreach(var entity in result) 
         {
             dtos.Add(entity.ToDTO());
