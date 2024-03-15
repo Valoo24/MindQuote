@@ -10,7 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     AppDomain.CurrentDomain.GetAssemblies()));
-builder.Services.AddScoped < IRepository<Quote>, QuoteRepository>();
+
+builder.Services.AddScoped <IRepository<Quote>, QuoteRepository>();
+builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
 

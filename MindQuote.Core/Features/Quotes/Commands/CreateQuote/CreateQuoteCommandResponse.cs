@@ -2,7 +2,7 @@
 
 namespace MindQuote.Core.Features.Quotes.Commands.CreateQuote;
 
-public class CreateQuoteCommandResponse : ICommandResponse<Guid>
+public class CreateQuoteCommandResponse : ICommandResponse<CreateQuoteCommandResponseDto>
 {
-    public Guid Content { get; set; }
+    public CreateQuoteCommandResponseDto Content { get; set; } = new();
 }
